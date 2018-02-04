@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "token.h"
+#include <functional>
 
 namespace parser
 {
@@ -63,6 +64,7 @@ namespace parser
 
 		eof
 	};
+
 	class token;
 
 	class lexer
@@ -70,26 +72,55 @@ namespace parser
 	public:
 		explicit lexer ( std::string );
 
+		/**
+		 * \brief Advances the lexer once.
+		 */
 		void advance ();
-		void advanceUntilEnd ();
+
+		/**
+		 * \brief Advances the lexer until the NULL terminator character is reached.
+		 */
+		void advance_until_end ();
+
+		/**
+		 * \brief Advances the lexer while the specified predicate function is true.
+		 */
+		void advance_while ( std::function <bool  ( lexer& )> );
+
+		/**
+		 * \brief Advances the lexer until the specified predicate function is true.
+		 */
+		void advance_until ( std::function <bool  ( lexer& )> );
+
+		/**
+		 * \brief Advances the lexer while the specified predicate function is true.
+		 * \return the characters that were advanced through in the process.
+		 */
+		void advance_while ( std::function <bool  ( lexer& )>, std::vector <char>& );
+
+		/**
+		 * \brief Advances the lexer until the specified predicate function is true.
+		 * \return the characters that were advanced through in the process.
+		 */
+		void advance_until ( std::function <bool  ( lexer& )>, std::vector <char>& );
 
 		void tokenize ();
 		void eat ();
 
-		void parseAlpha ();
-		void parseNumeric ();
+		void parse_alpha ();
+		void parse_numeric ();
 
 		void refresh ();
 
-		uint16_t getPosition () const;
-		uint16_t getColumn () const;
-		uint16_t getLine () const;
+		uint16_t get_position () const;
+		uint16_t get_column () const;
+		uint16_t get_line () const;
 
-		const char* getPointer() const;
+		const char* Ptr () const;
 
-		char getCurrent () const;
-		char getNext () const;
-		char getPrevious () const;
+		char current () const;
+		char next () const;
+		char previous () const;
 
 		std::vector <token> tokens () const;
 

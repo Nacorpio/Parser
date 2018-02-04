@@ -318,6 +318,41 @@ void lexer::refresh ()
 	m_prev = *( m_ptr - 1 );
 }
 
+const char* lexer::getPointer () const
+{
+	return m_ptr;
+}
+
+uint16_t lexer::getPosition () const
+{
+	return m_position;
+}
+
+uint16_t lexer::getColumn () const
+{
+	return m_column;
+}
+
+uint16_t lexer::getLine () const
+{
+	return m_line;
+}
+
+char lexer::getCurrent () const
+{
+	return m_current;
+}
+
+char lexer::getNext () const
+{
+	return m_next;
+}
+
+char lexer::getPrevious () const
+{
+	return m_prev;
+}
+
 void lexer::parseAlpha ()
 {
 	while ( isalpha ( m_next ) )
@@ -334,7 +369,7 @@ void lexer::parseNumeric ()
 	}
 }
 
-std::vector <token> lexer::GetTokens () const
+std::vector <token> lexer::tokens () const
 {
 	return m_tokens;
 }

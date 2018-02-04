@@ -76,12 +76,22 @@ public:
 	void tokenize ();
 	void eat ();
 
-	void refresh ();
-
 	void parseAlpha ();
 	void parseNumeric ();
 
-	std::vector <token> GetTokens () const;
+	void refresh();
+
+	const char* getPointer () const;
+
+	uint16_t getPosition () const;
+	uint16_t getColumn () const;
+	uint16_t getLine () const;
+
+	char getCurrent () const;
+	char getNext () const;
+	char getPrevious () const;
+
+	std::vector <token> tokens () const;
 
 private:
 	std::string m_str;

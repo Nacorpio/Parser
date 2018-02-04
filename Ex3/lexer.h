@@ -4,106 +4,110 @@
 #include <vector>
 #include "token.h"
 
-class token;
-
-enum token_kind
+namespace parser
 {
-	none,
-	unknown,
+	enum class token_kind
+	{
+		none,
+		unknown,
 
-	exclamation_mark,
-	hash,
-	double_quote,
-	single_quote,
-	at,
-	pound,
-	dollar,
-	euro,
-	currency,
-	percent,
-	ampersand,
-	forward_slash,
-	backslash,
-	curly_brace_r,
-	curly_brace_l,
-	paranthesis_r,
-	paranthesis_l,
-	square_brace_r,
-	square_brace_l,
-	equals,
-	question_mark,
-	plus,
-	hyphen,
-	diacritical_mark,
-	grave_accent,
-	caret,
-	tilde,
-	asterisk,
-	underscore,
-	period,
-	comma,
-	semicolon,
-	colon,
-	arrow_l,
-	arrow_r,
-	pipe,
-	section,
-	one_half,
+		exclamation_mark,
+		hash,
+		double_quote,
+		single_quote,
+		at,
+		pound,
+		dollar,
+		euro,
+		currency,
+		percent,
+		ampersand,
+		forward_slash,
+		backslash,
+		curly_brace_r,
+		curly_brace_l,
+		paranthesis_r,
+		paranthesis_l,
+		square_brace_r,
+		square_brace_l,
+		equals,
+		question_mark,
+		plus,
+		hyphen,
+		diacritical_mark,
+		grave_accent,
+		caret,
+		tilde,
+		asterisk,
+		underscore,
+		period,
+		comma,
+		semicolon,
+		colon,
+		arrow_l,
+		arrow_r,
+		pipe,
+		section,
+		one_half,
 
-	character,
-	string,
+		character,
+		string,
 
-	digit,
-	number,
-	decimal,
+		digit,
+		number,
+		decimal,
 
-	tab,
-	new_line,
-	whitespace,
+		tab,
+		new_line,
+		whitespace,
 
-	eof
-};
+		eof
+	};
+	class token;
 
-class lexer
-{
-public:
-	explicit lexer ( std::string );
-	~lexer ();
+	class lexer
+	{
+	public:
+		explicit lexer ( std::string );
 
-	void advance ();
-	void advanceUntilEnd ();
+		void advance ();
+		void advanceUntilEnd ();
 
-	void tokenize ();
-	void eat ();
+		void tokenize ();
+		void eat ();
 
-	void parseAlpha ();
-	void parseNumeric ();
+		void parseAlpha ();
+		void parseNumeric ();
 
-	void refresh();
+		void refresh ();
 
-	const char* getPointer () const;
+		uint16_t getPosition () const;
+		uint16_t getColumn () const;
+		uint16_t getLine () const;
 
-	uint16_t getPosition () const;
-	uint16_t getColumn () const;
-	uint16_t getLine () const;
+		const char* getPointer() const;
 
-	char getCurrent () const;
-	char getNext () const;
-	char getPrevious () const;
+		char getCurrent () const;
+		char getNext () const;
+		char getPrevious () const;
 
-	std::vector <token> tokens () const;
+		std::vector <token> tokens () const;
 
-private:
-	std::string m_str;
-	const char* m_ptr { };
+	private:
+		std::string m_str;
+		const char* m_ptr { };
 
-	char m_current { }, m_next { }, m_prev { };
+		char m_current { }, m_next { }, m_prev { };
 
-	uint16_t m_position, m_column, m_line;
-	uint16_t m_lastStart { }, m_lastEnd { };
+		uint16_t m_position = 1;
+		uint16_t m_column   = 1;
+		uint16_t m_line     = 1;
 
-	token_kind m_lastKind;
-	std::string m_lastData;
+		uint16_t m_lastStart { }, m_lastEnd { };
 
-	std::vector <token> m_tokens { };
-};
+		token_kind m_lastKind;
+		std::string m_lastData;
+
+		std::vector <token> m_tokens { };
+	};
+}

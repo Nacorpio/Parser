@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lexer.h"
 #include "token.h"
+#include "enums.h"
 
 namespace parser
 {
@@ -313,20 +314,20 @@ namespace parser
 		}
 	}
 
-	void lexer::advance_while ( const predicate func, std::vector <char>& results )
+	void lexer::advance_while ( const predicate func, std::vector <char>& captured_t )
 	{
 		while ( func ( *this ) )
 		{
-			results.push_back ( current () );
+			captured_t.push_back ( current () );
 			eat ();
 		}
 	}
 
-	void lexer::advance_until ( const predicate func, std::vector <char>& results )
+	void lexer::advance_until ( const predicate func, std::vector <char>& captured_t )
 	{
 		while ( !func ( *this ) )
 		{
-			results.push_back ( current () );
+			captured_t.push_back ( current () );
 			eat ();
 		}
 	}

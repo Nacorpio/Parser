@@ -1,11 +1,10 @@
 #pragma once
 #include <string>
 #include "lexer.h"
+#include "enums.h"
 
 namespace parser
 {
-	enum class token_kind;
-
 	class token
 	{
 	public:

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "token.h"
+#include "enums.h"
 
 namespace parser
 {

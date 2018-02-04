@@ -69,6 +69,8 @@ namespace parser
 
 	class lexer
 	{
+		typedef std::function <bool  ( lexer& )> predicate;
+
 	public:
 		explicit lexer ( std::string );
 
@@ -83,48 +85,82 @@ namespace parser
 		void advance_until_end ();
 
 		/**
-		 * \brief Advances the lexer while the specified predicate function is true.
+		 * \brief Advances the lexer while the specified predicate function returns true.
 		 */
-		void advance_while ( std::function <bool  ( lexer& )> );
+		void advance_while ( predicate );
 
 		/**
-		 * \brief Advances the lexer until the specified predicate function is true.
+		 * \brief Advances the lexer until the specified predicate function returns true.
 		 */
-		void advance_until ( std::function <bool  ( lexer& )> );
+		void advance_until ( predicate );
 
 		/**
-		 * \brief Advances the lexer while the specified predicate function is true.
-		 * \return the characters that were advanced through in the process.
+		 * \brief Advances the lexer while the specified predicate function returns true.
+		 * \return The characters that were captured in the process.
 		 */
-		void advance_while ( std::function <bool  ( lexer& )>, std::vector <char>& );
+		void advance_while ( predicate, std::vector <char>& );
 
 		/**
-		 * \brief Advances the lexer until the specified predicate function is true.
-		 * \return the characters that were advanced through in the process.
+		 * \brief Advances the lexer until the specified predicate function returns true.
+		 * \return The characters that were captured in the process.
 		 */
-		void advance_until ( std::function <bool  ( lexer& )>, std::vector <char>& );
+		void advance_until ( predicate, std::vector <char>& );
 
-		void tokenize ();
+		/**
+		 * \brief Advances the lexer, but does not capture any characters.
+		 */
 		void eat ();
+
+		/**
+		 * \brief 
+		 * \return The current position.
+		 */
+		uint16_t get_position () const;
+
+		/**
+		 * \brief 
+		 * \return The current column.
+		 */
+		uint16_t get_column () const;
+
+		/**
+		 * \brief 
+		 * \return The current line.
+		 */
+		uint16_t get_line () const;
+
+		/**
+		 * \brief 
+		 * \return A pointer to the current character.
+		 */
+		const char* current_ptr () const;
+
+		/**
+		 * \brief 
+		 * \return The current character.
+		 */
+		char current () const;
+		/**
+		 * \brief 
+		 * \return The next character.
+		 */
+		char next () const;
+		/**
+		 * \brief 
+		 * \return The previous character.
+		 */
+		char previous () const;
+
+		std::vector <token> tokens () const;
+
+	private:
+		void tokenize ();
 
 		void parse_alpha ();
 		void parse_numeric ();
 
 		void refresh ();
 
-		uint16_t get_position () const;
-		uint16_t get_column () const;
-		uint16_t get_line () const;
-
-		const char* Ptr () const;
-
-		char current () const;
-		char next () const;
-		char previous () const;
-
-		std::vector <token> tokens () const;
-
-	private:
 		std::string m_str;
 		const char* m_ptr { };
 

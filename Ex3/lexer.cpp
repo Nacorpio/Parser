@@ -297,7 +297,7 @@ namespace parser
 		advance ();
 	}
 
-	void lexer::advance_while ( const std::function <bool  ( lexer& )> func )
+	void lexer::advance_while ( const predicate func )
 	{
 		while ( func ( *this ) )
 		{
@@ -305,7 +305,7 @@ namespace parser
 		}
 	}
 
-	void lexer::advance_until ( const std::function <bool  ( lexer& )> func )
+	void lexer::advance_until ( const predicate func )
 	{
 		while ( !func ( *this ) )
 		{
@@ -313,7 +313,7 @@ namespace parser
 		}
 	}
 
-	void lexer::advance_while ( const std::function <bool  ( lexer& )> func, std::vector <char>& results )
+	void lexer::advance_while ( const predicate func, std::vector <char>& results )
 	{
 		while ( func ( *this ) )
 		{
@@ -322,7 +322,7 @@ namespace parser
 		}
 	}
 
-	void lexer::advance_until ( const std::function <bool  ( lexer& )> func, std::vector <char>& results )
+	void lexer::advance_until ( const predicate func, std::vector <char>& results )
 	{
 		while ( !func ( *this ) )
 		{
@@ -348,7 +348,7 @@ namespace parser
 		m_prev = *( m_ptr - 1 );
 	}
 
-	const char* lexer::Ptr () const
+	const char* lexer::current_ptr () const
 	{
 		return m_ptr;
 	}
